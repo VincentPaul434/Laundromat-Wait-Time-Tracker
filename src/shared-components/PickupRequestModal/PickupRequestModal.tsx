@@ -46,17 +46,17 @@ export function PickupRequestModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-primary/45 px-4 py-6">
-      <div className="w-full max-w-[460px] border border-primary/30 bg-primary p-4 text-primary-foreground shadow-[0_18px_60px_rgba(31,47,79,0.34)] sm:p-5">
-        <div className="mb-4 flex items-start justify-between gap-4">
-          <div className="space-y-2">
+    <div className="fixed inset-0 z-50 bg-primary/45 sm:flex sm:items-center sm:justify-center sm:px-4 sm:py-6">
+      <div className="flex min-h-dvh w-full flex-col bg-primary text-primary-foreground shadow-[0_18px_60px_rgba(31,47,79,0.34)] sm:mx-auto sm:min-h-0 sm:max-w-[460px] sm:border sm:border-primary/30">
+        <div className="flex items-start justify-between gap-4 px-4 pb-4 pt-5 sm:p-5">
+          <div className="space-y-2 pr-2">
             <p className="text-[11px] font-light uppercase tracking-[0.3em] text-primary-foreground/72">
               Skip the trip entirely
             </p>
-            <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+            <h2 className="text-[1.75rem] font-black uppercase leading-[0.92] tracking-normal sm:text-4xl">
               Book a laundry pickup.
             </h2>
-            <p className="max-w-md text-sm leading-6 text-primary-foreground/80">
+            <p className="max-w-md text-sm leading-5 text-primary-foreground/80 sm:leading-6">
               Got a mountain of clothes? We&apos;ll pick it up, wash it, fold it, and bring it back, no trips needed.
             </p>
           </div>
@@ -64,7 +64,7 @@ export function PickupRequestModal({
           <Button
             type="button"
             variant="ghost"
-            className="size-9 rounded-none p-0 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+            className="mt-1 size-9 shrink-0 rounded-none p-0 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
             onClick={onClose}
             aria-label="Close pickup request modal"
           >
@@ -72,8 +72,9 @@ export function PickupRequestModal({
           </Button>
         </div>
 
-        <form className="space-y-4" onSubmit={onSubmit}>
-          <div className="space-y-1.5">
+        <form className="flex flex-1 flex-col overflow-hidden" onSubmit={onSubmit}>
+          <div className="flex-1 space-y-4 overflow-y-auto px-4 pb-4 sm:px-5">
+            <div className="space-y-1.5">
             <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
               Name
             </label>
@@ -81,12 +82,12 @@ export function PickupRequestModal({
               value={values.name}
               placeholder="Your Name...."
               onChange={(event) => onFieldChange('name', event.target.value)}
-              className="h-12 rounded-lg border-primary-foreground/18 bg-slate-950/28 px-4 text-sm text-primary-foreground placeholder:text-primary-foreground/45"
+              className="h-12 rounded-lg border-primary-foreground/18 bg-slate-950/28 px-4 text-base text-primary-foreground placeholder:text-primary-foreground/45 sm:text-sm"
             />
             {errors.name ? <p className="text-xs text-[#f7d7d7]">{errors.name}</p> : null}
-          </div>
+            </div>
 
-          <div className="space-y-1.5">
+            <div className="space-y-1.5">
             <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
               Phone
             </label>
@@ -94,12 +95,12 @@ export function PickupRequestModal({
               value={values.phone}
               placeholder="(555) 000-0000"
               onChange={(event) => onFieldChange('phone', event.target.value)}
-              className="h-12 rounded-lg border-primary-foreground/18 bg-slate-950/28 px-4 text-sm text-primary-foreground placeholder:text-primary-foreground/45"
+              className="h-12 rounded-lg border-primary-foreground/18 bg-slate-950/28 px-4 text-base text-primary-foreground placeholder:text-primary-foreground/45 sm:text-sm"
             />
             {errors.phone ? <p className="text-xs text-[#f7d7d7]">{errors.phone}</p> : null}
-          </div>
+            </div>
 
-          <div className="space-y-1.5">
+            <div className="space-y-1.5">
             <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
               Pickup Date
             </label>
@@ -107,19 +108,19 @@ export function PickupRequestModal({
               type="date"
               value={values.pickupDate}
               onChange={(event) => onFieldChange('pickupDate', event.target.value)}
-              className="h-12 rounded-lg border-primary-foreground/18 bg-slate-950/28 px-4 text-sm text-primary-foreground"
+              className="h-12 rounded-lg border-primary-foreground/18 bg-slate-950/28 px-4 text-base text-primary-foreground sm:text-sm"
             />
             {errors.pickupDate ? <p className="text-xs text-[#f7d7d7]">{errors.pickupDate}</p> : null}
-          </div>
+            </div>
 
-          <div className="space-y-1.5">
+            <div className="space-y-1.5">
             <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
               Load Size
             </label>
             <select
               value={values.loadSize}
               onChange={(event) => onFieldChange('loadSize', event.target.value)}
-              className="h-12 w-full rounded-lg border border-primary-foreground/18 bg-slate-950/28 px-4 text-sm text-primary-foreground outline-none"
+              className="h-12 w-full rounded-lg border border-primary-foreground/18 bg-slate-950/28 px-4 text-base text-primary-foreground outline-none sm:text-sm"
             >
               {loadSizeOptions.map((option) => (
                 <option key={option} value={option} className="text-slate-950">
@@ -128,9 +129,9 @@ export function PickupRequestModal({
               ))}
             </select>
             {errors.loadSize ? <p className="text-xs text-[#f7d7d7]">{errors.loadSize}</p> : null}
-          </div>
+            </div>
 
-          <div className="space-y-1.5">
+            <div className="space-y-1.5">
             <label className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-primary-foreground/70">
               Address
             </label>
@@ -138,15 +139,16 @@ export function PickupRequestModal({
               value={values.address}
               placeholder="Your address..."
               onChange={(event) => onFieldChange('address', event.target.value)}
-              className="min-h-[92px] w-full rounded-lg border border-primary-foreground/18 bg-slate-950/28 px-4 py-3 text-sm text-primary-foreground outline-none placeholder:text-primary-foreground/45"
+              className="min-h-[112px] w-full resize-none rounded-lg border border-primary-foreground/18 bg-slate-950/28 px-4 py-3 text-base text-primary-foreground outline-none placeholder:text-primary-foreground/45 sm:min-h-[92px] sm:text-sm"
             />
             {errors.address ? <p className="text-xs text-[#f7d7d7]">{errors.address}</p> : null}
+            </div>
           </div>
 
-          <div className="pt-2">
+          <div className="border-t border-primary-foreground/12 bg-primary px-4 pb-5 pt-4 sm:px-5">
             <Button
               type="submit"
-              className="mx-auto flex h-14 min-w-[234px] rounded-full bg-[#efe7d7] px-8 text-base font-black uppercase tracking-normal text-primary hover:bg-[#e9e0ce]"
+              className="mx-auto flex h-14 w-full rounded-full bg-[#efe7d7] px-8 text-sm font-black uppercase tracking-[0.08em] text-primary hover:bg-[#e9e0ce] sm:min-w-[234px] sm:w-auto sm:text-base sm:tracking-normal"
             >
               {isSubmitting ? 'Requesting Pickup...' : 'Request Pickup'}
             </Button>
