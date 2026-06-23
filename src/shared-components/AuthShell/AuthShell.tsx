@@ -1,5 +1,4 @@
 import type { FormEvent, ReactNode } from 'react';
-import { ArrowDown, Camera, Mail, PhoneCall } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
@@ -74,26 +73,6 @@ export function AuthShell({
             <div className="mt-8 size-10 rounded-full border-[3px] border-primary" />
           </div>
 
-          <Link
-            to="/dashboard"
-            aria-label="Go to dashboard"
-            className="absolute bottom-[7%] inline-flex size-14 items-center justify-center text-primary"
-          >
-            <ArrowDown className="size-12 stroke-[4]" />
-          </Link>
-
-          <div className="absolute right-[-0.75rem] top-1/2 z-20 flex -translate-y-1/2 flex-col gap-4">
-            {[PhoneCall, Mail, Camera].map((Icon, index) => (
-              <a
-                key={index}
-                href={index === 0 ? 'tel:+639123456789' : index === 1 ? 'mailto:info@washline.test' : '#top'}
-                aria-label={index === 0 ? 'Call branch' : index === 1 ? 'Email branch' : 'Social link'}
-                className="inline-flex size-11 items-center justify-center rounded-full bg-primary text-primary-foreground"
-              >
-                <Icon className="size-4" />
-              </a>
-            ))}
-          </div>
         </div>
 
         <div className="w-full border-t-2 border-primary pt-7">
