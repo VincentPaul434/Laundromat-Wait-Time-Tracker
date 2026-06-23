@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 
 import {
   DASHBOARD_BRANCHES,
@@ -9,6 +9,8 @@ import {
   DASHBOARD_SERVICES,
   DASHBOARD_TESTIMONIALS,
   DASHBOARD_TRUST_METRICS,
+  DEFAULT_PICKUP_REQUEST_FIELD_ERRORS,
+  DEFAULT_PICKUP_REQUEST_FORM_VALUES,
   DEFAULT_DASHBOARD_VIEW_STATE,
   type BranchOption,
   type ContactPanelContent,
@@ -16,6 +18,8 @@ import {
   type MachineStatus,
   type MachineType,
   type ProcessStep,
+  type PickupRequestFieldErrors,
+  type PickupRequestFormValues,
   type PricingItem,
   type ServiceItem,
   type TestimonialItem,
@@ -47,6 +51,10 @@ export interface DashboardViewModel {
   processSteps: ProcessStep[];
   trustMetrics: TrustMetric[];
   testimonials: TestimonialItem[];
+  isPickupModalOpen: boolean;
+  pickupFormValues: PickupRequestFormValues;
+  pickupFormErrors: PickupRequestFieldErrors;
+  isSubmittingPickupRequest: boolean;
   summary: {
     total: number;
     available: number;
@@ -56,6 +64,10 @@ export interface DashboardViewModel {
   onLocationChange: (locationId: string) => void;
   onMachineTypeChange: (machineType: MachineType | 'all') => void;
   onNotifyToggle: (machineId: string) => void;
+  onOpenPickupModal: () => void;
+  onClosePickupModal: () => void;
+  onPickupFieldChange: (field: keyof PickupRequestFormValues, value: string) => void;
+  onSubmitPickupRequest: (event: FormEvent<HTMLFormElement>) => void;
 }
 
 const STATUS_LABELS: Record<MachineStatus, string> = {
@@ -84,6 +96,14 @@ export function useDashboardViewModel(): DashboardViewModel {
     DEFAULT_DASHBOARD_VIEW_STATE.selectedMachineType,
   );
   const [machines, setMachines] = useState<MachineItem[]>(DASHBOARD_MACHINES);
+  const [isPickupModalOpen, setIsPickupModalOpen] = useState<boolean>(false);
+  const [pickupFormValues, setPickupFormValues] = useState<PickupRequestFormValues>(
+    DEFAULT_PICKUP_REQUEST_FORM_VALUES,
+  );
+  const [pickupFormErrors, setPickupFormErrors] = useState<PickupRequestFieldErrors>(
+    DEFAULT_PICKUP_REQUEST_FIELD_ERRORS,
+  );
+  const [isSubmittingPickupRequest, setIsSubmittingPickupRequest] = useState<boolean>(false);
 
   useEffect(() => {
     // ViewModel layer: simulates live-feeling status refresh from local/mock data.
@@ -163,6 +183,55 @@ export function useDashboardViewModel(): DashboardViewModel {
     );
   };
 
+  const onOpenPickupModal = (): void => {
+    setIsPickupModalOpen(true);
+  };
+
+  const onClosePickupModal = (): void => {
+    setIsPickupModalOpen(false);
+    setIsSubmittingPickupRequest(false);
+    setPickupFormErrors(DEFAULT_PICKUP_REQUEST_FIELD_ERRORS);
+  };
+
+  const onPickupFieldChange = (field: keyof PickupRequestFormValues, value: string): void => {
+    setPickupFormValues((currentValues) => ({
+      ...currentValues,
+      [field]: value,
+    }));
+
+    setPickupFormErrors((currentErrors) => ({
+      ...currentErrors,
+      [field]: '',
+    }));
+  };
+
+  const onSubmitPickupRequest = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    const nextErrors: PickupRequestFieldErrors = {
+      name: pickupFormValues.name.trim() ? '' : 'Please enter your name.',
+      phone: pickupFormValues.phone.trim().length >= 7 ? '' : 'Please enter a valid phone number.',
+      pickupDate: pickupFormValues.pickupDate.trim() ? '' : 'Please choose a pickup date.',
+      loadSize: pickupFormValues.loadSize.trim() ? '' : 'Please select a load size.',
+      address: pickupFormValues.address.trim() ? '' : 'Please enter your pickup address.',
+    };
+
+    setPickupFormErrors(nextErrors);
+
+    if (Object.values(nextErrors).some(Boolean)) {
+      return;
+    }
+
+    setIsSubmittingPickupRequest(true);
+
+    window.setTimeout(() => {
+      setIsSubmittingPickupRequest(false);
+      setIsPickupModalOpen(false);
+      setPickupFormValues(DEFAULT_PICKUP_REQUEST_FORM_VALUES);
+      setPickupFormErrors(DEFAULT_PICKUP_REQUEST_FIELD_ERRORS);
+    }, 500);
+  };
+
   return {
     pageTitle: 'Laundromat Wait-Time Tracker',
     pageSubtitle:
@@ -178,9 +247,17 @@ export function useDashboardViewModel(): DashboardViewModel {
     processSteps: DASHBOARD_PROCESS_STEPS,
     trustMetrics: DASHBOARD_TRUST_METRICS,
     testimonials: DASHBOARD_TESTIMONIALS,
+    isPickupModalOpen,
+    pickupFormValues,
+    pickupFormErrors,
+    isSubmittingPickupRequest,
     summary,
     onLocationChange,
     onMachineTypeChange,
     onNotifyToggle,
+    onOpenPickupModal,
+    onClosePickupModal,
+    onPickupFieldChange,
+    onSubmitPickupRequest,
   };
 }

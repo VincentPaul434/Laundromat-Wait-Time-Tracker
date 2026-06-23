@@ -9,6 +9,7 @@ interface ContactCtaProps {
   secondaryActionLabel: string;
   contactNumber: string;
   branchAddress: string;
+  onPrimaryAction: () => void;
 }
 
 export function ContactCta({
@@ -18,6 +19,7 @@ export function ContactCta({
   secondaryActionLabel,
   contactNumber,
   branchAddress,
+  onPrimaryAction,
 }: ContactCtaProps): JSX.Element {
   return (
     <Card aria-labelledby="contact-cta-heading" className="rounded-none border-primary bg-primary text-primary-foreground shadow-none">
@@ -44,7 +46,12 @@ export function ContactCta({
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <Button type="button" variant="secondary" className="rounded-none bg-primary-foreground text-primary hover:bg-primary-foreground/90">
+          <Button
+            type="button"
+            variant="secondary"
+            className="rounded-none bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            onClick={onPrimaryAction}
+          >
             {primaryActionLabel}
           </Button>
           <Button asChild variant="outline" className="rounded-none border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">

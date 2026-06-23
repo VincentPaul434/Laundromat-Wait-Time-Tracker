@@ -48,7 +48,7 @@ export function BranchSelector({
         <div className="space-y-2">
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-foreground">Machine Type</p>
           <Tabs value={selectedMachineType} onValueChange={(value) => onMachineTypeChange(value as MachineType | 'all')}>
-            <TabsList className="grid w-full grid-cols-3 rounded-none">
+            <TabsList className="grid h-auto w-full grid-cols-1 rounded-none sm:grid-cols-3">
               <TabsTrigger value="all">All</TabsTrigger>
               <TabsTrigger value="washer">Washers</TabsTrigger>
               <TabsTrigger value="dryer">Dryers</TabsTrigger>

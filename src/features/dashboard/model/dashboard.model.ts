@@ -36,6 +36,22 @@ export interface ContactPanelContent {
   secondaryActionLabel: string;
 }
 
+export interface PickupRequestFormValues {
+  name: string;
+  phone: string;
+  pickupDate: string;
+  loadSize: string;
+  address: string;
+}
+
+export interface PickupRequestFieldErrors {
+  name: string;
+  phone: string;
+  pickupDate: string;
+  loadSize: string;
+  address: string;
+}
+
 export interface ServiceItem {
   id: string;
   title: string;
@@ -315,4 +331,20 @@ export const DEFAULT_DASHBOARD_VIEW_STATE: DashboardViewState = {
   selectedLocationId: DASHBOARD_BRANCHES[0].id,
   selectedMachineType: 'all',
   activeNotifyMachineIds: [],
+};
+
+export const DEFAULT_PICKUP_REQUEST_FORM_VALUES: PickupRequestFormValues = {
+  name: '',
+  phone: '',
+  pickupDate: '',
+  loadSize: 'Large (3+ hampers)',
+  address: '',
+};
+
+export const DEFAULT_PICKUP_REQUEST_FIELD_ERRORS: PickupRequestFieldErrors = {
+  name: '',
+  phone: '',
+  pickupDate: '',
+  loadSize: '',
+  address: '',
 };
