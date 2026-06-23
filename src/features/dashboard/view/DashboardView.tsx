@@ -28,7 +28,7 @@ export function DashboardView(): JSX.Element {
       <div className="border-b border-border bg-muted">
         <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-6 sm:px-6 md:grid-cols-[1fr_auto_1fr] lg:px-8">
           <Link to="/dashboard" className="font-mono text-sm uppercase tracking-[0.46em] text-foreground md:justify-self-start">
-            ○ LAUNDRY○SHOP○
+            ○ LAUNDRYMAT ○
           </Link>
           <nav className="hidden items-center justify-center gap-10 font-black uppercase tracking-wide md:flex">
             <a href="#services">Services</a>
@@ -83,14 +83,6 @@ export function DashboardView(): JSX.Element {
 
       <div className="bg-primary px-4 py-3 text-center font-mono text-[10px] uppercase tracking-[0.32em] text-primary-foreground sm:px-6 lg:px-8">
         {viewModel.selectedBranch.address}
-      </div>
-
-      <div className="border-b border-border bg-muted">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-4 px-4 py-5 text-center sm:px-6 md:grid-cols-3 lg:px-8">
-          <p className="font-mono text-sm uppercase tracking-[0.44em]">○LAUNDRY○SHOP○</p>
-          <a href="#services" className="text-xl font-black uppercase">Our Services</a>
-          <a href="#pricing" className="text-xl font-black uppercase">Pricelist</a>
-        </div>
       </div>
 
       <div className="flex flex-col">
