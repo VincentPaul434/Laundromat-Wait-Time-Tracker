@@ -8,6 +8,7 @@ import { BranchSelector } from '../../../shared-components/BranchSelector/Branch
 import { ContactCta } from '../../../shared-components/ContactCta/ContactCta';
 import { MachineCard } from '../../../shared-components/MachineCard/MachineCard';
 import { PricingTable } from '../../../shared-components/PricingTable/PricingTable';
+import { PickupRequestModal } from '../../../shared-components/PickupRequestModal/PickupRequestModal';
 import { StatusSummary } from '../../../shared-components/StatusSummary/StatusSummary';
 import { useDashboardViewModel } from '../viewmodel/useDashboardViewModel';
 
@@ -263,6 +264,7 @@ export function DashboardView(): JSX.Element {
               secondaryActionLabel={viewModel.contactPanel.secondaryActionLabel}
               contactNumber={viewModel.selectedBranch.contactNumber}
               branchAddress={viewModel.selectedBranch.address}
+              onPrimaryAction={viewModel.onOpenPickupModal}
             />
           </div>
         </section>
@@ -277,6 +279,16 @@ export function DashboardView(): JSX.Element {
           </div>
         </footer>
       </div>
+
+      <PickupRequestModal
+        isOpen={viewModel.isPickupModalOpen}
+        values={viewModel.pickupFormValues}
+        errors={viewModel.pickupFormErrors}
+        isSubmitting={viewModel.isSubmittingPickupRequest}
+        onClose={viewModel.onClosePickupModal}
+        onFieldChange={viewModel.onPickupFieldChange}
+        onSubmit={viewModel.onSubmitPickupRequest}
+      />
     </main>
   );
 }
