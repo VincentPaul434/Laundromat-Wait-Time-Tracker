@@ -38,17 +38,17 @@ export function MachineCard({
     <Card
       aria-live="polite"
       data-status={status}
-      className="group relative overflow-hidden rounded-none border-border bg-card shadow-none transition-colors hover:border-primary"
+      className="group relative overflow-hidden rounded-2xl border-border bg-card shadow-sm transition-colors hover:border-primary"
     >
       <CardHeader className="gap-4">
         <div className="flex items-start justify-between gap-3">
           <div className="space-y-1">
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
+            <p className="text-sm font-medium text-muted-foreground">
               {typeLabel}
             </p>
-            <CardTitle className="text-2xl font-black uppercase">{label}</CardTitle>
+            <CardTitle className="text-2xl font-semibold">{label}</CardTitle>
           </div>
-          <Badge className={`${statusClasses[status]} rounded-none bg-transparent font-mono text-[10px] uppercase tracking-[0.2em]`} variant="outline">
+          <Badge className={`${statusClasses[status]} rounded-full bg-transparent px-3 py-1 text-xs font-medium`} variant="outline">
             {statusLabel}
           </Badge>
         </div>
@@ -69,7 +69,7 @@ export function MachineCard({
         <Button
           type="button"
           variant={notifyEnabled ? "secondary" : "default"}
-          className="w-full rounded-none font-mono text-xs uppercase tracking-[0.18em]"
+          className="w-full rounded-lg text-sm font-semibold"
           onClick={() => onNotifyToggle(id)}
           aria-pressed={notifyEnabled}
         >

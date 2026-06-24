@@ -12,7 +12,7 @@ export function SignUpView(): JSX.Element {
       activeRoute="signup"
       formTitle={viewModel.heading}
       formSubtitle={viewModel.subheading}
-      submitLabel={viewModel.isSubmitting ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
+      submitLabel={viewModel.isSubmitting ? 'Creating account...' : 'Create account'}
       submitDisabled={!viewModel.canSubmit}
       onSubmit={viewModel.onSubmit}
       footerPrompt="Have an account?"
@@ -22,7 +22,7 @@ export function SignUpView(): JSX.Element {
       <div className="grid gap-4 sm:grid-cols-2">
         <AuthTextField
           id="signup-first-name"
-          label="FIRST NAME"
+          label="First Name"
           value={viewModel.values.firstName}
           placeholder="John"
           onChange={(value) => viewModel.onFieldChange('firstName', value)}
@@ -30,7 +30,7 @@ export function SignUpView(): JSX.Element {
         />
         <AuthTextField
           id="signup-last-name"
-          label="LAST NAME"
+          label="Last Name"
           value={viewModel.values.lastName}
           placeholder="Junathan"
           onChange={(value) => viewModel.onFieldChange('lastName', value)}
@@ -39,7 +39,7 @@ export function SignUpView(): JSX.Element {
       </div>
       <AuthTextField
         id="signup-email"
-        label="EMAIL"
+        label="Email"
         type="email"
         value={viewModel.values.email}
         placeholder="your_email@yourmail.com"
@@ -48,7 +48,7 @@ export function SignUpView(): JSX.Element {
       />
       <AuthTextField
         id="signup-password"
-        label="PASSWORD"
+        label="Password"
         type="password"
         value={viewModel.values.password}
         placeholder="****************"
@@ -57,7 +57,7 @@ export function SignUpView(): JSX.Element {
       />
       <AuthTextField
         id="signup-confirm-password"
-        label="CONFIRM PASSWORD"
+        label="Confirm Password"
         type="password"
         value={viewModel.values.confirmPassword}
         placeholder="****************"

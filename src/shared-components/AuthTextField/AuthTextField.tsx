@@ -21,7 +21,7 @@ export function AuthTextField({
 }: AuthTextFieldProps): JSX.Element {
   return (
     <div className="space-y-2.5">
-      <label htmlFor={id} className="block text-[11px] font-light uppercase tracking-[0.34em] text-foreground/85">
+      <label htmlFor={id} className="block text-sm font-semibold text-foreground">
         {label}
       </label>
       <Input
@@ -30,9 +30,9 @@ export function AuthTextField({
         value={value}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 rounded-none border-primary/35 bg-card px-4 text-[15px] font-light tracking-[0.04em] text-foreground shadow-none placeholder:font-light placeholder:tracking-[0.04em] placeholder:text-muted-foreground/75 focus-visible:border-primary focus-visible:ring-primary/20"
+        className="h-12 rounded-xl border-border bg-white/90 px-4 text-sm text-foreground shadow-[0_6px_18px_rgba(148,163,184,0.10)] placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-primary/20"
       />
-      {error ? <p className="text-xs font-light tracking-[0.04em] text-destructive">{error}</p> : null}
+      {error ? <p className="text-sm text-destructive">{error}</p> : null}
     </div>
   );
 }

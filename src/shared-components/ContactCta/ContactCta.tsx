@@ -22,25 +22,25 @@ export function ContactCta({
   onPrimaryAction,
 }: ContactCtaProps): JSX.Element {
   return (
-    <Card aria-labelledby="contact-cta-heading" className="rounded-none border-primary bg-primary text-primary-foreground shadow-none">
+    <Card aria-labelledby="contact-cta-heading" className="rounded-3xl border-border bg-card text-card-foreground shadow-sm">
       <CardHeader className="space-y-3">
-        <div className="inline-flex w-fit items-center gap-2 border border-primary-foreground/30 px-3 py-1 font-mono text-xs uppercase tracking-[0.18em]">
+        <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-muted px-3 py-1 text-xs font-medium text-muted-foreground">
           <Truck className="size-3.5" />
           Pickup Service
         </div>
-        <CardTitle id="contact-cta-heading" className="text-3xl font-black uppercase sm:text-4xl">
+        <CardTitle id="contact-cta-heading" className="text-2xl font-semibold sm:text-3xl">
           {title}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
-        <p className="max-w-2xl text-primary-foreground/80">{description}</p>
-        <div className="grid gap-3 text-sm text-primary-foreground/80 sm:grid-cols-2">
-          <div className="flex items-start gap-2">
-            <MapPin className="mt-0.5 size-4 shrink-0" />
+        <p className="max-w-2xl text-sm leading-7 text-muted-foreground">{description}</p>
+        <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+          <div className="flex items-start gap-2 rounded-2xl bg-muted/60 p-4">
+            <MapPin className="mt-0.5 size-4 shrink-0 text-foreground" />
             <span>{branchAddress}</span>
           </div>
-          <div className="flex items-start gap-2">
-            <PhoneCall className="mt-0.5 size-4 shrink-0" />
+          <div className="flex items-start gap-2 rounded-2xl bg-muted/60 p-4">
+            <PhoneCall className="mt-0.5 size-4 shrink-0 text-foreground" />
             <span>{contactNumber}</span>
           </div>
         </div>
@@ -48,13 +48,12 @@ export function ContactCta({
         <div className="flex flex-wrap gap-3">
           <Button
             type="button"
-            variant="secondary"
-            className="rounded-none bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            className="rounded-lg"
             onClick={onPrimaryAction}
           >
             {primaryActionLabel}
           </Button>
-          <Button asChild variant="outline" className="rounded-none border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+          <Button asChild variant="outline" className="rounded-lg">
             <a href={`tel:${contactNumber}`}>{secondaryActionLabel}</a>
           </Button>
         </div>

@@ -12,7 +12,7 @@ export function LoginView(): JSX.Element {
       activeRoute="login"
       formTitle={viewModel.heading}
       formSubtitle={viewModel.subheading}
-      submitLabel={viewModel.isSubmitting ? 'SIGNING IN...' : 'LOG-IN'}
+      submitLabel={viewModel.isSubmitting ? 'Signing in...' : 'Log in'}
       submitDisabled={!viewModel.canSubmit}
       onSubmit={viewModel.onSubmit}
       footerPrompt="Need an account?"
@@ -21,7 +21,7 @@ export function LoginView(): JSX.Element {
     >
       <AuthTextField
         id="login-email"
-        label="EMAIL"
+        label="Email"
         type="email"
         value={viewModel.values.email}
         placeholder="your_email@yourmail.com"
@@ -30,7 +30,7 @@ export function LoginView(): JSX.Element {
       />
       <AuthTextField
         id="login-password"
-        label="PASSWORD"
+        label="Password"
         type="password"
         value={viewModel.values.password}
         placeholder="****************"
