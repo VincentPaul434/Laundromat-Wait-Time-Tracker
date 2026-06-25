@@ -24,12 +24,12 @@ export function AmbientBackground({
       style={{ backgroundColor }}
     >
       <Antigravity
-        count={200}
+        count={150}
         magnetRadius={20}
         ringRadius={10}
         waveSpeed={0.4}
         waveAmplitude={5}
-        particleSize={20}
+        particleSize={16}
         lerpSpeed={0.1}
         color={particleColor}
         autoAnimate={false}
@@ -39,7 +39,7 @@ export function AmbientBackground({
         pulseSpeed={1}
         particleShape="circle"
         fieldStrength={50}
-        className="h-full w-full"
+        className="h-full w-full opacity-40"
         
       />
     </div>

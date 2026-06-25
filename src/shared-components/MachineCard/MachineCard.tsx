@@ -37,7 +37,7 @@ const STATUS_CONFIG: Record<
 > = {
   available: {
     accent: "bg-emerald-500",
-    bg: "bg-emerald-50/60",
+    bg: "bg-emerald-50/80",
     badgeBg: "bg-emerald-50",
     badgeText: "text-emerald-700",
     badgeBorder: "border-emerald-200",
@@ -48,7 +48,7 @@ const STATUS_CONFIG: Record<
   },
   "in-use": {
     accent: "bg-amber-500",
-    bg: "bg-amber-50/50",
+    bg: "bg-amber-50/80",
     badgeBg: "bg-amber-50",
     badgeText: "text-amber-700",
     badgeBorder: "border-amber-200",
@@ -59,7 +59,7 @@ const STATUS_CONFIG: Record<
   },
   "finishing-soon": {
     accent: "bg-sky-400",
-    bg: "bg-sky-50/60",
+    bg: "bg-sky-50/80",
     badgeBg: "bg-sky-50",
     badgeText: "text-sky-700",
     badgeBorder: "border-sky-200",
@@ -98,7 +98,7 @@ export function MachineCard({
       <div
         aria-live="polite"
         data-status={status}
-        className={`relative h-full flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow hover:shadow-md`}
+        className="relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
       >
         {/* Top accent bar — color encodes status at a glance */}
         <AnimatePresence mode="wait">
@@ -130,14 +130,14 @@ export function MachineCard({
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
               {/* Machine type icon circle */}
-              <div className="flex size-10 items-center justify-center rounded-xl border border-border bg-white/80 shrink-0">
+              <div className="flex size-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shrink-0 shadow-sm">
                 <MachineIcon className="size-4.5 text-foreground" />
               </div>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground leading-none">
                   {typeLabel}
                 </p>
-                <p className="text-lg font-bold text-foreground mt-0.5 leading-none">{label}</p>
+                <p className="mt-1 text-xl font-bold leading-none text-foreground">{label}</p>
               </div>
             </div>
 
@@ -167,8 +167,8 @@ export function MachineCard({
           </div>
 
           {/* ── Info row ── */}
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
               <StatusIcon className={`size-3.5 ${status === "in-use" ? "animate-spin" : ""}`} />
               <span>{loadSizeLabel}</span>
             </div>
@@ -181,7 +181,7 @@ export function MachineCard({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.2 }}
-                className="flex items-center gap-1.5 text-xs font-semibold text-foreground"
+                className="flex items-center gap-1.5 text-sm font-semibold text-foreground"
               >
                 <Timer className="size-3.5 text-muted-foreground" />
                 <span className="tabular-nums">{etaLabel}</span>
@@ -202,7 +202,7 @@ export function MachineCard({
                   transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                 />
               </div>
-              <p className="text-[10px] text-muted-foreground text-right font-medium">
+              <p className="text-xs text-right font-medium text-muted-foreground">
                 {status === "finishing-soon" ? "Almost done" : "In progress"}
               </p>
             </div>

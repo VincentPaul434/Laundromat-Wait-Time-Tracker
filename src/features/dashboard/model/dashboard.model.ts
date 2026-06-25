@@ -250,7 +250,7 @@ export const DASHBOARD_PRICING: PricingItem[] = [
 export const DASHBOARD_CONTACT_PANEL: ContactPanelContent = {
   title: 'Book a bulk laundry pickup',
   description:
-    'Reach the branch team for pickup scheduling, commercial loads, or large-batch laundry coordination.',
+    'Reach the branch team for pickup scheduling, commercial loads, or large-batch laundry coordination in one quick request.',
   primaryActionLabel: 'Book pickup',
   secondaryActionLabel: 'Call branch',
 };
@@ -290,22 +290,22 @@ export const DASHBOARD_PROCESS_STEPS: ProcessStep[] = [
   {
     id: 'book',
     title: 'Book',
-    description: 'Choose a branch, select a service, and reserve a pickup or arrival window in seconds.',
+    description: 'Choose your branch and lock in a pickup or visit time in minutes.',
   },
   {
     id: 'collect',
-    title: 'We Collect',
-    description: 'Our team confirms your request and handles pickup coordination when delivery is needed.',
+    title: 'Collect',
+    description: 'We confirm the request and handle collection details when pickup is needed.',
   },
   {
     id: 'clean',
-    title: 'We Clean',
-    description: 'Laundry is processed with careful sorting, load handling, and service-specific finishing.',
+    title: 'Clean',
+    description: 'Your laundry is sorted, washed, dried, and finished with care.',
   },
   {
     id: 'deliver',
-    title: 'We Deliver',
-    description: 'Get your fresh laundry back on time, folded and ready for your next day.',
+    title: 'Deliver',
+    description: 'Fresh laundry comes back on time, folded and ready to go.',
   },
 ];
 
