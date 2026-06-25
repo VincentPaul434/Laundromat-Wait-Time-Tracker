@@ -27,6 +27,7 @@ export interface PricingItem {
   serviceLabel: string;
   description: string;
   priceLabel: string;
+  unit: string;
 }
 
 export interface ContactPanelContent {
@@ -173,67 +174,76 @@ export const DASHBOARD_MACHINES: MachineItem[] = [
 
 export const DASHBOARD_PRICING: PricingItem[] = [
   {
-    id: 'wash-shirts',
+    id: 'wash-regular',
     category: 'Wash & Fold',
-    serviceLabel: 'Shirts',
-    description: 'Everyday garments, sorted and folded.',
+    serviceLabel: 'Regular',
+    description: 'Everyday clothes, towels, and mixed garments.',
+    priceLabel: 'PHP 65',
+    unit: '/kg',
+  },
+  {
+    id: 'wash-delicates',
+    category: 'Wash & Fold',
+    serviceLabel: 'Delicates',
+    description: 'Gentle cycle for undergarments and thin fabrics.',
     priceLabel: 'PHP 80',
+    unit: '/kg',
   },
   {
-    id: 'wash-medium',
+    id: 'wash-bulky',
     category: 'Wash & Fold',
-    serviceLabel: 'Medium Load',
-    description: 'Mixed garments, towels, and daily laundry.',
+    serviceLabel: 'Bulky Items',
+    description: 'Beddings, duvets, curtains, and heavy loads.',
+    priceLabel: 'PHP 90',
+    unit: '/kg',
+  },
+  {
+    id: 'dry-clean-standard',
+    category: 'Dry-Cleaning',
+    serviceLabel: 'Standard Garments',
+    description: 'Shirts, blouses, and everyday formal pieces.',
     priceLabel: 'PHP 120',
+    unit: '/kg',
   },
   {
-    id: 'wash-large',
-    category: 'Wash & Fold',
-    serviceLabel: 'Large Load',
-    description: 'Beddings, bulk garments, and heavy items.',
-    priceLabel: 'PHP 160',
-  },
-  {
-    id: 'dry-clean-shirt',
+    id: 'dry-clean-structured',
     category: 'Dry-Cleaning',
-    serviceLabel: 'Shirt',
-    description: 'Pressed and finished for formal wear.',
-    priceLabel: 'PHP 95',
+    serviceLabel: 'Structured Pieces',
+    description: 'Suits, jackets, and lined or tailored clothing.',
+    priceLabel: 'PHP 180',
+    unit: '/kg',
   },
   {
-    id: 'dry-clean-jacket',
+    id: 'dry-clean-heavy',
     category: 'Dry-Cleaning',
-    serviceLabel: 'Suit Jacket',
-    description: 'Careful handling for lined garments.',
-    priceLabel: 'PHP 240',
+    serviceLabel: 'Heavy Garments',
+    description: 'Coats, thick dresses, and embellished items.',
+    priceLabel: 'PHP 220',
+    unit: '/kg',
   },
   {
-    id: 'dry-clean-dress',
-    category: 'Dry-Cleaning',
-    serviceLabel: 'Dress',
-    description: 'Delicate garment cleaning and finishing.',
-    priceLabel: 'PHP 260',
-  },
-  {
-    id: 'iron-shirt',
+    id: 'iron-light',
     category: 'Ironing',
-    serviceLabel: 'Shirt',
-    description: 'Pressed and hanger-ready.',
-    priceLabel: 'PHP 45',
-  },
-  {
-    id: 'iron-pants',
-    category: 'Ironing',
-    serviceLabel: 'Pants',
-    description: 'Crisp finish for daily wear.',
+    serviceLabel: 'Light Fabrics',
+    description: 'Cotton shirts, linen, and lightweight pieces.',
     priceLabel: 'PHP 55',
+    unit: '/kg',
+  },
+  {
+    id: 'iron-heavy',
+    category: 'Ironing',
+    serviceLabel: 'Heavy Fabrics',
+    description: 'Denim, uniforms, and thicker garments.',
+    priceLabel: 'PHP 70',
+    unit: '/kg',
   },
   {
     id: 'pickup-service',
     category: 'Pickup Service',
     serviceLabel: 'Scheduled Pickup',
-    description: 'Branch-coordinated pickup and return.',
-    priceLabel: 'From PHP 120',
+    description: 'Branch-coordinated collection and return. Pricing applies on top of service rate.',
+    priceLabel: 'From PHP 50',
+    unit: '/trip',
   },
 ];
 
@@ -324,6 +334,27 @@ export const DASHBOARD_TESTIMONIALS: TestimonialItem[] = [
       'The branch status view saves me the commute guesswork. I check the machines, drop off when it is quiet, and I am out fast.',
     author: 'Mara S.',
     context: 'Weekly customer, Branch A',
+  },
+  {
+    id: 'testimonial-2',
+    quote:
+      'We run a small bed-and-breakfast and Washline handles all our linen pickups. The coordination is smooth — one call, confirmed slot, done.',
+    author: 'Rodel T.',
+    context: 'B&B owner, Katipunan',
+  },
+  {
+    id: 'testimonial-3',
+    quote:
+      'Three kids, full-time job. I drop off a big load on Saturday morning and pick it up folded in the afternoon. It genuinely changed my weekends.',
+    author: 'Jen A.',
+    context: 'Wash & Fold regular, Branch B',
+  },
+  {
+    id: 'testimonial-4',
+    quote:
+      'I appreciate that the prices are listed upfront. No surprises at pickup. That transparency is why I keep coming back.',
+    author: 'Carlo M.',
+    context: 'Monthly customer, Branch C',
   },
 ];
 

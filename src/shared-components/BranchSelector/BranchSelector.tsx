@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { Building2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,9 +20,20 @@ export function BranchSelector({
   onMachineTypeChange,
 }: BranchSelectorProps): JSX.Element {
   return (
-    <section aria-labelledby="branch-selector-heading" className="relative flex flex-col rounded-3xl border border-border/60 bg-gradient-to-b from-card to-muted/20 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-full overflow-hidden">
+    <motion.section
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      aria-labelledby="branch-selector-heading"
+      className="relative flex flex-col rounded-3xl border border-border/60 bg-gradient-to-b from-card to-muted/20 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-full overflow-hidden"
+    >
       {/* Subtle decorative background blur */}
-      <div className="absolute -right-6 -top-6 size-32 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
+      <motion.div
+        className="absolute -right-6 -top-6 size-32 rounded-full bg-primary/5 blur-3xl pointer-events-none"
+        animate={{ scale: [1, 1.15, 1] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
 
       <div className="space-y-3 relative z-10">
         <div className="flex items-center gap-3">
@@ -75,6 +87,6 @@ export function BranchSelector({
           </Tabs>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
