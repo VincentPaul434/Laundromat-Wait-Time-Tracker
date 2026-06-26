@@ -247,7 +247,9 @@ export function DashboardView(): JSX.Element {
       </header>
 
       <section id="pickup" aria-labelledby="pickup-heading" className="section-gap px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-7xl rounded-[2rem] border border-border bg-white/88 p-8 shadow-lg shadow-black/[0.04] md:p-10">
+
+          {/* Pickup Flow */}
           <Reveal className="mx-auto max-w-2xl text-center">
             <Badge className="mb-4 inline-flex rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary shadow-none">
               How it Works
@@ -258,23 +260,80 @@ export function DashboardView(): JSX.Element {
             <p className="mt-4 text-lg leading-8 text-muted-foreground">Book, collect, clean, deliver.</p>
           </Reveal>
 
-          <div className="mx-auto mt-10 max-w-6xl rounded-[2rem] border border-border bg-white/88 p-5 shadow-lg shadow-black/[0.04] sm:p-6">
-            <RevealGroup className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-              {viewModel.processSteps.map((step, index) => (
-                <RevealItem key={step.id}>
-                  <article className="flex h-full flex-col rounded-[1.5rem] border border-border bg-white px-5 py-5 text-left shadow-sm">
-                    <div className="mb-4 flex items-center gap-3">
-                      <div className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary ring-4 ring-primary/5">
-                        {String(index + 1).padStart(2, "0")}
-                      </div>
-                      <h3 className="text-lg font-bold">{step.title}</h3>
+          <RevealGroup className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {viewModel.processSteps.map((step, index) => (
+              <RevealItem key={step.id}>
+                <article className="flex h-full flex-col rounded-[1.5rem] border border-border bg-white px-5 py-5 text-left shadow-sm">
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className="flex size-11 items-center justify-center rounded-full bg-primary/10 text-lg font-bold text-primary ring-4 ring-primary/5">
+                      {String(index + 1).padStart(2, "0")}
                     </div>
-                    <p className="text-sm leading-7 text-muted-foreground">{step.description}</p>
-                  </article>
-                </RevealItem>
-              ))}
-            </RevealGroup>
+                    <h3 className="text-lg font-bold">{step.title}</h3>
+                  </div>
+                  <p className="text-justify text-sm leading-7 text-muted-foreground">{step.description}</p>
+                </article>
+              </RevealItem>
+            ))}
+          </RevealGroup>
+
+          {/* Divider */}
+          <div className="my-10 border-t border-border/60" />
+
+          {/* Contact */}
+          <div id="contact" className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+            <Reveal>
+              <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Contact</p>
+              <h2 className="mt-4 font-bold leading-snug">Address, hours, and pickup booking.</h2>
+
+              <div className="mt-10 space-y-7">
+                {[
+                  {
+                    Icon: MapPin,
+                    label: "Address",
+                    content: viewModel.selectedBranch.address,
+                  },
+                  {
+                    Icon: PhoneCall,
+                    label: "Phone",
+                    content: viewModel.selectedBranch.contactNumber,
+                  },
+                  {
+                    Icon: Clock3,
+                    label: "Hours",
+                    content: (
+                      <>
+                        <p>Mon - Fri: 8 am - 8 pm</p>
+                        <p>Sat - Sun: 9 am - 8 pm</p>
+                      </>
+                    ),
+                  },
+                ].map(({ Icon, label, content }) => (
+                  <div key={label} className="flex items-start gap-4">
+                    <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+                      <Icon className="size-4" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-bold text-foreground">{label}</p>
+                      <div className="mt-1 text-sm leading-7 text-muted-foreground">{content}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.1}>
+              <ContactCta
+                title={viewModel.contactPanel.title}
+                description={viewModel.contactPanel.description}
+                primaryActionLabel={viewModel.contactPanel.primaryActionLabel}
+                secondaryActionLabel={viewModel.contactPanel.secondaryActionLabel}
+                contactNumber={viewModel.selectedBranch.contactNumber}
+                branchAddress={viewModel.selectedBranch.address}
+                onPrimaryAction={viewModel.onOpenPickupModal}
+              />
+            </Reveal>
           </div>
+
         </div>
       </section>
 
@@ -293,23 +352,21 @@ export function DashboardView(): JSX.Element {
             {viewModel.serviceItems.map((service, index) => {
               const Icon = SERVICE_ICONS[index % SERVICE_ICONS.length];
               return (
-                <RevealItem key={service.id}>
-                  <article className="card-hover aspect-square flex flex-col justify-between rounded-[1.6rem] border border-border bg-card p-6 shadow-sm">
+                <RevealItem key={service.id} className="h-full">
+                  <article className="card-hover flex h-full flex-col rounded-[1.6rem] border border-border bg-card p-6 shadow-sm">
                     <div className="flex size-14 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
                       <Icon className="size-6" />
                     </div>
-                    <div className="flex flex-1 flex-col justify-end">
-                      <Badge
-                        variant="outline"
-                        className="mb-2 w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
-                      >
-                        {service.eyebrow}
-                      </Badge>
-                      <h3 className="mb-2 text-lg font-bold">{service.title}</h3>
-                      <p className="line-clamp-4 text-justify text-sm leading-7 text-muted-foreground">
-                        {service.description}
-                      </p>
-                    </div>
+                    <Badge
+                      variant="outline"
+                      className="mt-6 w-fit rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider"
+                    >
+                      {service.eyebrow}
+                    </Badge>
+                    <h3 className="mt-2 text-lg font-bold">{service.title}</h3>
+                    <p className="mt-2 text-justify text-sm leading-7 text-muted-foreground">
+                      {service.description}
+                    </p>
                   </article>
                 </RevealItem>
               );
@@ -380,62 +437,6 @@ export function DashboardView(): JSX.Element {
         </div>
       </section>
 
-      <section id="contact" className="section-gap px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-          <Reveal>
-            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Contact</p>
-            <h2 className="mt-4 font-bold leading-snug">Address, hours, and pickup booking.</h2>
-
-            <div className="mt-10 space-y-7">
-              {[
-                {
-                  Icon: MapPin,
-                  label: "Address",
-                  content: viewModel.selectedBranch.address,
-                },
-                {
-                  Icon: PhoneCall,
-                  label: "Phone",
-                  content: viewModel.selectedBranch.contactNumber,
-                },
-                {
-                  Icon: Clock3,
-                  label: "Hours",
-                  content: (
-                    <>
-                      <p>Mon - Fri: 8 am - 8 pm</p>
-                      <p>Sat - Sun: 9 am - 8 pm</p>
-                    </>
-                  ),
-                },
-              ].map(({ Icon, label, content }) => (
-                <div key={label} className="flex items-start gap-4">
-                  <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
-                    <Icon className="size-4" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-foreground">{label}</p>
-                    <div className="mt-1 text-sm leading-7 text-muted-foreground">{content}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <ContactCta
-              title={viewModel.contactPanel.title}
-              description={viewModel.contactPanel.description}
-              primaryActionLabel={viewModel.contactPanel.primaryActionLabel}
-              secondaryActionLabel={viewModel.contactPanel.secondaryActionLabel}
-              contactNumber={viewModel.selectedBranch.contactNumber}
-              branchAddress={viewModel.selectedBranch.address}
-              onPrimaryAction={viewModel.onOpenPickupModal}
-            />
-          </Reveal>
-        </div>
-      </section>
-
       <footer className="border-t border-border bg-card/90 px-4 py-6 sm:px-6 lg:px-8">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 sm:flex-row sm:justify-between">
           <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Washline Laundromat. All rights reserved.</p>
@@ -447,6 +448,7 @@ export function DashboardView(): JSX.Element {
 
       <PickupRequestModal
         isOpen={viewModel.isPickupModalOpen}
+        branchOptions={viewModel.branchOptions}
         values={viewModel.pickupFormValues}
         errors={viewModel.pickupFormErrors}
         isSubmitting={viewModel.isSubmittingPickupRequest}

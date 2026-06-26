@@ -4,11 +4,19 @@ import { CheckCircle2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+interface BranchOption {
+  id: string;
+  name: string;
+  address: string;
+}
+
 interface PickupRequestModalProps {
   isOpen: boolean;
+  branchOptions: BranchOption[];
   values: {
     name: string;
     phone: string;
+    branch: string;
     pickupDate: string;
     loadSize: string;
     address: string;
@@ -16,6 +24,7 @@ interface PickupRequestModalProps {
   errors: {
     name: string;
     phone: string;
+    branch: string;
     pickupDate: string;
     loadSize: string;
     address: string;
@@ -23,7 +32,7 @@ interface PickupRequestModalProps {
   isSubmitting: boolean;
   isSubmitSuccess: boolean;
   onClose: () => void;
-  onFieldChange: (field: 'name' | 'phone' | 'pickupDate' | 'loadSize' | 'address', value: string) => void;
+  onFieldChange: (field: 'name' | 'phone' | 'branch' | 'pickupDate' | 'loadSize' | 'address', value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 }
 
@@ -37,6 +46,7 @@ const sheetTransition = { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
 
 export function PickupRequestModal({
   isOpen,
+  branchOptions,
   values,
   errors,
   isSubmitting,
@@ -168,6 +178,36 @@ export function PickupRequestModal({
                               className="text-sm text-destructive"
                             >
                               {errors.phone}
+                            </motion.p>
+                          )}
+                        </AnimatePresence>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label className="block text-sm font-medium text-foreground">
+                          Branch
+                        </label>
+                        <select
+                          value={values.branch}
+                          onChange={(event) => onFieldChange('branch', event.target.value)}
+                          className="h-11 w-full rounded-lg border border-input bg-background px-4 text-sm text-foreground outline-none transition-shadow focus:border-ring focus:ring-3 focus:ring-ring/20"
+                        >
+                          <option value="" disabled className="text-slate-400">Select a branch...</option>
+                          {branchOptions.map((branch) => (
+                            <option key={branch.id} value={branch.id} className="text-slate-950">
+                              {branch.name}
+                            </option>
+                          ))}
+                        </select>
+                        <AnimatePresence>
+                          {errors.branch && (
+                            <motion.p
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="text-sm text-destructive"
+                            >
+                              {errors.branch}
                             </motion.p>
                           )}
                         </AnimatePresence>

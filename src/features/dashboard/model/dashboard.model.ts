@@ -40,6 +40,7 @@ export interface ContactPanelContent {
 export interface PickupRequestFormValues {
   name: string;
   phone: string;
+  branch: string;
   pickupDate: string;
   loadSize: string;
   address: string;
@@ -48,6 +49,7 @@ export interface PickupRequestFormValues {
 export interface PickupRequestFieldErrors {
   name: string;
   phone: string;
+  branch: string;
   pickupDate: string;
   loadSize: string;
   address: string;
@@ -367,6 +369,7 @@ export const DEFAULT_DASHBOARD_VIEW_STATE: DashboardViewState = {
 export const DEFAULT_PICKUP_REQUEST_FORM_VALUES: PickupRequestFormValues = {
   name: '',
   phone: '',
+  branch: '',
   pickupDate: '',
   loadSize: 'Large (3+ hampers)',
   address: '',
@@ -375,6 +378,7 @@ export const DEFAULT_PICKUP_REQUEST_FORM_VALUES: PickupRequestFormValues = {
 export const DEFAULT_PICKUP_REQUEST_FIELD_ERRORS: PickupRequestFieldErrors = {
   name: '',
   phone: '',
+  branch: '',
   pickupDate: '',
   loadSize: '',
   address: '',

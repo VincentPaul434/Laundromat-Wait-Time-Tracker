@@ -215,6 +215,7 @@ export function useDashboardViewModel(): DashboardViewModel {
     const nextErrors: PickupRequestFieldErrors = {
       name: pickupFormValues.name.trim() ? '' : 'Please enter your name.',
       phone: pickupFormValues.phone.trim().length >= 7 ? '' : 'Please enter a valid phone number.',
+      branch: pickupFormValues.branch.trim() ? '' : 'Please choose a branch.',
       pickupDate: pickupFormValues.pickupDate.trim() ? '' : 'Please choose a pickup date.',
       loadSize: pickupFormValues.loadSize.trim() ? '' : 'Please select a load size.',
       address: pickupFormValues.address.trim() ? '' : 'Please enter your pickup address.',
