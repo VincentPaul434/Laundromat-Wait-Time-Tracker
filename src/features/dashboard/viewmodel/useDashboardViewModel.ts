@@ -40,6 +40,7 @@ export interface MachineCardViewData {
 export interface DashboardViewModel {
   pageTitle: string;
   pageSubtitle: string;
+  allMachines: MachineItem[];
   branchOptions: BranchOption[];
   selectedLocationId: string;
   selectedMachineType: MachineType | 'all';
@@ -55,6 +56,7 @@ export interface DashboardViewModel {
   pickupFormValues: PickupRequestFormValues;
   pickupFormErrors: PickupRequestFieldErrors;
   isSubmittingPickupRequest: boolean;
+  isPickupSubmitSuccess: boolean;
   summary: {
     total: number;
     available: number;
@@ -104,6 +106,7 @@ export function useDashboardViewModel(): DashboardViewModel {
     DEFAULT_PICKUP_REQUEST_FIELD_ERRORS,
   );
   const [isSubmittingPickupRequest, setIsSubmittingPickupRequest] = useState<boolean>(false);
+  const [isPickupSubmitSuccess, setIsPickupSubmitSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     // ViewModel layer: simulates live-feeling status refresh from local/mock data.
@@ -190,6 +193,7 @@ export function useDashboardViewModel(): DashboardViewModel {
   const onClosePickupModal = (): void => {
     setIsPickupModalOpen(false);
     setIsSubmittingPickupRequest(false);
+    setIsPickupSubmitSuccess(false);
     setPickupFormErrors(DEFAULT_PICKUP_REQUEST_FIELD_ERRORS);
   };
 
@@ -211,6 +215,7 @@ export function useDashboardViewModel(): DashboardViewModel {
     const nextErrors: PickupRequestFieldErrors = {
       name: pickupFormValues.name.trim() ? '' : 'Please enter your name.',
       phone: pickupFormValues.phone.trim().length >= 7 ? '' : 'Please enter a valid phone number.',
+      branch: pickupFormValues.branch.trim() ? '' : 'Please choose a branch.',
       pickupDate: pickupFormValues.pickupDate.trim() ? '' : 'Please choose a pickup date.',
       loadSize: pickupFormValues.loadSize.trim() ? '' : 'Please select a load size.',
       address: pickupFormValues.address.trim() ? '' : 'Please enter your pickup address.',
@@ -226,16 +231,22 @@ export function useDashboardViewModel(): DashboardViewModel {
 
     window.setTimeout(() => {
       setIsSubmittingPickupRequest(false);
-      setIsPickupModalOpen(false);
-      setPickupFormValues(DEFAULT_PICKUP_REQUEST_FORM_VALUES);
-      setPickupFormErrors(DEFAULT_PICKUP_REQUEST_FIELD_ERRORS);
-    }, 500);
+      setIsPickupSubmitSuccess(true);
+
+      window.setTimeout(() => {
+        setIsPickupModalOpen(false);
+        setIsPickupSubmitSuccess(false);
+        setPickupFormValues(DEFAULT_PICKUP_REQUEST_FORM_VALUES);
+        setPickupFormErrors(DEFAULT_PICKUP_REQUEST_FIELD_ERRORS);
+      }, 1600);
+    }, 700);
   };
 
   return {
     pageTitle: 'Laundromat Wait-Time Tracker',
     pageSubtitle:
       'Check branch availability, compare machine status, and plan your laundry trip before leaving home.',
+    allMachines: machines,
     branchOptions: DASHBOARD_BRANCHES,
     selectedLocationId,
     selectedMachineType,
@@ -251,6 +262,7 @@ export function useDashboardViewModel(): DashboardViewModel {
     pickupFormValues,
     pickupFormErrors,
     isSubmittingPickupRequest,
+    isPickupSubmitSuccess,
     summary,
     onLocationChange,
     onMachineTypeChange,

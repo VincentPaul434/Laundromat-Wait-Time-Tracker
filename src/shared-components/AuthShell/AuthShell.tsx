@@ -1,8 +1,11 @@
 import type { FormEvent, ReactNode } from 'react';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { AmbientBackground } from '../AmbientBackground/AmbientBackground';
+import { WashlineLogo } from '../WashlineLogo/WashlineLogo';
 
 interface AuthShellProps {
   activeRoute: 'login' | 'signup';
@@ -30,109 +33,159 @@ export function AuthShell({
   children,
 }: AuthShellProps): JSX.Element {
   return (
-    <main id="top" className="min-h-screen bg-background text-foreground">
-      <div className="bg-primary text-primary-foreground">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-2 font-mono text-[10px] uppercase tracking-[0.32em] sm:px-6 lg:px-8">
-          <span>123 Aurora Blvd, Quezon City</span>
-          <span>Mon - Sun 8AM - 8PM</span>
-          <span>+63 912 345 6789</span>
-        </div>
+    <main id="top" className="min-h-screen bg-transparent text-foreground">
+      <AmbientBackground />
+
+      {/* ================================================================
+          Header — brand mark pinned to the top-left, matching the
+          Dashboard navbar's spacing, radius, and surface treatment.
+          ================================================================ */}
+      <div className="fixed left-4 top-4 z-50 sm:left-6 lg:left-8">
+        <Link
+          to="/"
+          aria-label="Washline home"
+          className="inline-flex items-center rounded-2xl border border-border/60 bg-white/80 px-3 py-2 shadow-lg shadow-black/[0.06] backdrop-blur-xl transition-all hover:bg-white/95 active:scale-[0.98]"
+        >
+          <WashlineLogo size={28} className="sm:[&_span:last-child]:text-base" />
+        </Link>
       </div>
 
-      <div className="border-b border-border bg-muted">
-        <div className="mx-auto grid max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-6 sm:px-6 md:grid-cols-[1fr_auto_1fr] lg:px-8">
-          <Link
-            to="/dashboard"
-            className="text-sm font-light uppercase tracking-[0.46em] text-foreground md:justify-self-start"
-          >
-            LAUNDROMAT
-          </Link>
-          <nav className="hidden items-center justify-center gap-10 font-black uppercase tracking-wide md:flex">
-            <Link to="/dashboard#services">Services</Link>
-            <Link to="/dashboard#pricing">Pricing</Link>
-            <Link to="/dashboard#contact">Contact</Link>
-          </nav>
-          <Button asChild className="justify-self-end rounded-none px-5 font-mono text-xs uppercase tracking-[0.18em]">
-            <Link to="/dashboard#contact">Book Pickup</Link>
-          </Button>
-        </div>
-      </div>
-
-      <section className="mx-auto grid min-h-[calc(100vh-8.5rem)] max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[1fr_minmax(360px,520px)] lg:px-8">
-        <div className="relative mx-auto flex aspect-square w-[min(78vw,560px)] items-center justify-center">
-          <div className="absolute inset-0 rounded-full border-[clamp(0.75rem,2vw,1.25rem)] border-primary" />
-          <div className="absolute inset-[8%] rounded-full bg-muted" />
-          <div className="absolute left-[23%] top-[18%] h-[64%] w-[9%] border-x border-primary/10 bg-background/75 shadow-[0_0_22px_rgba(0,0,0,0.08)]" />
-          <div className="relative z-10 grid place-items-center text-center">
-            <p className="mb-6 text-xs font-light uppercase tracking-[0.46em] text-muted-foreground">
-              Washline
+      <section className="mx-auto grid min-h-screen max-w-7xl items-center gap-10 px-4 pb-10 pt-20 sm:px-6 sm:pt-24 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,470px)] lg:px-8 lg:pb-16 lg:pt-24">
+        <motion.div
+          className="space-y-8"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="space-y-5">
+            <p className="inline-flex items-center rounded-full bg-primary px-4 py-1.5 text-sm font-semibold text-primary-foreground">
+              Fresh laundry, better flow
             </p>
-            <h1 className="max-w-[11ch] text-balance text-center text-5xl font-black uppercase leading-[0.8] tracking-tight sm:text-6xl lg:text-7xl">
-              Laundromat
+            <h1 className="max-w-[12ch] text-balance font-bold leading-tight text-gradient">
+              Laundry operations with a cleaner customer experience.
             </h1>
-            <div className="mt-8 size-10 rounded-full border-[3px] border-primary" />
+            <p className="max-w-2xl text-lg leading-8 text-muted-foreground">
+              Track branch activity, manage pickup requests, and keep essential
+              service information easy to access with a bright, calm, premium
+              interface.
+            </p>
           </div>
 
-        </div>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div className="card-hover rounded-[1.5rem] border border-border bg-card/90 p-5 shadow-sm">
+              <p className="text-3xl font-semibold">3 branches</p>
+              <p className="mt-2 text-base leading-7 text-muted-foreground">
+                Quick access to branch availability and contact details.
+              </p>
+            </div>
+            <div className="card-hover rounded-[1.5rem] border border-border bg-card/90 p-5 shadow-sm">
+              <p className="text-3xl font-semibold">Live status</p>
+              <p className="mt-2 text-base leading-7 text-muted-foreground">
+                Machine usage and summary counts surfaced clearly.
+              </p>
+            </div>
+            <div className="card-hover rounded-[1.5rem] border border-border bg-card/90 p-5 shadow-sm">
+              <p className="text-3xl font-semibold">Pickup ready</p>
+              <p className="mt-2 text-base leading-7 text-muted-foreground">
+                Booking requests and service details in one smooth flow.
+              </p>
+            </div>
+          </div>
 
-        <div className="w-full border-t-2 border-primary pt-7">
-          <div className="grid grid-cols-2 border border-primary">
+          <div className="section-shell grid gap-4 rounded-[2rem] p-6 sm:grid-cols-2">
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Hours</p>
+              <p className="mt-2 text-sm leading-6 text-foreground">Mon - Sun 8AM - 8PM</p>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Support</p>
+              <p className="mt-2 text-sm leading-6 text-foreground">+63 912 345 6789</p>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="hero-surface w-full rounded-[2rem] p-6 sm:p-8"
+          initial={{ opacity: 0, y: 18, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="relative grid grid-cols-2 rounded-2xl bg-muted/80 p-1.5">
+            <motion.div
+              layout
+              transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+              className={cn(
+                'absolute inset-y-1.5 w-[calc(50%-0.1875rem)] rounded-xl bg-white shadow-sm',
+                activeRoute === 'signup' ? 'left-[calc(50%+0.1875rem)]' : 'left-1.5',
+              )}
+            />
             <Link
               to="/login"
               className={cn(
-                'flex h-14 items-center justify-center font-black uppercase tracking-wide transition-colors',
-                activeRoute === 'login'
-                  ? 'bg-background text-primary'
-                  : 'bg-primary text-primary-foreground',
+                'relative z-10 flex h-11 items-center justify-center rounded-xl text-sm font-semibold transition-colors',
+                activeRoute === 'login' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
               )}
             >
-              Log-in
+              Log in
             </Link>
             <Link
               to="/signup"
               className={cn(
-                'flex h-14 items-center justify-center font-black uppercase tracking-wide transition-colors',
-                activeRoute === 'signup'
-                  ? 'bg-background text-primary'
-                  : 'bg-primary text-primary-foreground',
+                'relative z-10 flex h-11 items-center justify-center rounded-xl text-sm font-semibold transition-colors',
+                activeRoute === 'signup' ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
               )}
             >
-              Sign-up
+              Sign up
             </Link>
           </div>
 
-          <div className="mt-8 space-y-3">
-            <p className="text-xs font-light uppercase tracking-[0.34em] text-muted-foreground">
-              Member access
-            </p>
-            <h2 className="text-4xl font-black uppercase leading-none tracking-normal sm:text-5xl">
+          <motion.div
+            key={activeRoute}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-8 space-y-3"
+          >
+            <p className="text-sm font-medium text-primary">Member access</p>
+            <h2 className="text-3xl font-semibold leading-tight sm:text-4xl">
               {formTitle}
             </h2>
-            <p className="max-w-xl text-base font-light leading-7 text-muted-foreground">{formSubtitle}</p>
-          </div>
+            <p className="max-w-xl text-base leading-7 text-muted-foreground">
+              {formSubtitle}
+            </p>
+          </motion.div>
 
-          <form className="mt-8 space-y-4" onSubmit={onSubmit}>
+          <motion.form
+            key={`${activeRoute}-form`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3, delay: 0.05 }}
+            className="mt-8 space-y-4"
+            onSubmit={onSubmit}
+          >
             {children}
 
-            <Button
-              type="submit"
-              disabled={submitDisabled}
-              className="h-14 w-full rounded-none bg-primary text-xs font-bold uppercase tracking-[0.28em] text-primary-foreground hover:bg-primary/94"
-            >
-              {submitLabel}
-            </Button>
-          </form>
+            <motion.div whileTap={{ scale: 0.98 }}>
+              <Button
+                type="submit"
+                disabled={submitDisabled}
+                className="h-12 w-full rounded-xl bg-primary text-sm font-semibold text-primary-foreground shadow-[0_12px_30px_rgba(14,165,233,0.25)] hover:bg-primary/90 disabled:opacity-60"
+              >
+                {submitLabel}
+              </Button>
+            </motion.div>
+          </motion.form>
 
-          <p className="mt-6 text-center text-xs font-light uppercase tracking-[0.22em] text-muted-foreground">
+          <p className="mt-6 text-center text-sm text-muted-foreground">
             {footerPrompt}{' '}
-            <Link to={footerLinkTo} className="font-bold text-primary underline underline-offset-4">
+            <Link to={footerLinkTo} className="font-semibold text-primary underline underline-offset-4">
               {footerLinkLabel}
             </Link>
           </p>
-        </div>
+        </motion.div>
       </section>
 
-      <div className="bg-primary px-4 py-3 text-center font-mono text-[10px] uppercase tracking-[0.32em] text-primary-foreground sm:px-6 lg:px-8">
+      <div className="bg-primary px-4 py-3 text-center text-sm text-primary-foreground sm:px-6 lg:px-8">
         123 Aurora Blvd, Quezon City
       </div>
     </main>

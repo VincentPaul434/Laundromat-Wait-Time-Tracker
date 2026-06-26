@@ -27,6 +27,7 @@ export interface PricingItem {
   serviceLabel: string;
   description: string;
   priceLabel: string;
+  unit: string;
 }
 
 export interface ContactPanelContent {
@@ -39,6 +40,7 @@ export interface ContactPanelContent {
 export interface PickupRequestFormValues {
   name: string;
   phone: string;
+  branch: string;
   pickupDate: string;
   loadSize: string;
   address: string;
@@ -47,6 +49,7 @@ export interface PickupRequestFormValues {
 export interface PickupRequestFieldErrors {
   name: string;
   phone: string;
+  branch: string;
   pickupDate: string;
   loadSize: string;
   address: string;
@@ -173,74 +176,83 @@ export const DASHBOARD_MACHINES: MachineItem[] = [
 
 export const DASHBOARD_PRICING: PricingItem[] = [
   {
-    id: 'wash-shirts',
+    id: 'wash-regular',
     category: 'Wash & Fold',
-    serviceLabel: 'Shirts',
-    description: 'Everyday garments, sorted and folded.',
+    serviceLabel: 'Regular',
+    description: 'Everyday clothes, towels, and mixed garments.',
+    priceLabel: 'PHP 65',
+    unit: '/kg',
+  },
+  {
+    id: 'wash-delicates',
+    category: 'Wash & Fold',
+    serviceLabel: 'Delicates',
+    description: 'Gentle cycle for undergarments and thin fabrics.',
     priceLabel: 'PHP 80',
+    unit: '/kg',
   },
   {
-    id: 'wash-medium',
+    id: 'wash-bulky',
     category: 'Wash & Fold',
-    serviceLabel: 'Medium Load',
-    description: 'Mixed garments, towels, and daily laundry.',
+    serviceLabel: 'Bulky Items',
+    description: 'Beddings, duvets, curtains, and heavy loads.',
+    priceLabel: 'PHP 90',
+    unit: '/kg',
+  },
+  {
+    id: 'dry-clean-standard',
+    category: 'Dry-Cleaning',
+    serviceLabel: 'Standard Garments',
+    description: 'Shirts, blouses, and everyday formal pieces.',
     priceLabel: 'PHP 120',
+    unit: '/kg',
   },
   {
-    id: 'wash-large',
-    category: 'Wash & Fold',
-    serviceLabel: 'Large Load',
-    description: 'Beddings, bulk garments, and heavy items.',
-    priceLabel: 'PHP 160',
-  },
-  {
-    id: 'dry-clean-shirt',
+    id: 'dry-clean-structured',
     category: 'Dry-Cleaning',
-    serviceLabel: 'Shirt',
-    description: 'Pressed and finished for formal wear.',
-    priceLabel: 'PHP 95',
+    serviceLabel: 'Structured Pieces',
+    description: 'Suits, jackets, and lined or tailored clothing.',
+    priceLabel: 'PHP 180',
+    unit: '/kg',
   },
   {
-    id: 'dry-clean-jacket',
+    id: 'dry-clean-heavy',
     category: 'Dry-Cleaning',
-    serviceLabel: 'Suit Jacket',
-    description: 'Careful handling for lined garments.',
-    priceLabel: 'PHP 240',
+    serviceLabel: 'Heavy Garments',
+    description: 'Coats, thick dresses, and embellished items.',
+    priceLabel: 'PHP 220',
+    unit: '/kg',
   },
   {
-    id: 'dry-clean-dress',
-    category: 'Dry-Cleaning',
-    serviceLabel: 'Dress',
-    description: 'Delicate garment cleaning and finishing.',
-    priceLabel: 'PHP 260',
-  },
-  {
-    id: 'iron-shirt',
+    id: 'iron-light',
     category: 'Ironing',
-    serviceLabel: 'Shirt',
-    description: 'Pressed and hanger-ready.',
-    priceLabel: 'PHP 45',
-  },
-  {
-    id: 'iron-pants',
-    category: 'Ironing',
-    serviceLabel: 'Pants',
-    description: 'Crisp finish for daily wear.',
+    serviceLabel: 'Light Fabrics',
+    description: 'Cotton shirts, linen, and lightweight pieces.',
     priceLabel: 'PHP 55',
+    unit: '/kg',
+  },
+  {
+    id: 'iron-heavy',
+    category: 'Ironing',
+    serviceLabel: 'Heavy Fabrics',
+    description: 'Denim, uniforms, and thicker garments.',
+    priceLabel: 'PHP 70',
+    unit: '/kg',
   },
   {
     id: 'pickup-service',
     category: 'Pickup Service',
     serviceLabel: 'Scheduled Pickup',
-    description: 'Branch-coordinated pickup and return.',
-    priceLabel: 'From PHP 120',
+    description: 'Branch-coordinated collection and return. Pricing applies on top of service rate.',
+    priceLabel: 'From PHP 50',
+    unit: '/trip',
   },
 ];
 
 export const DASHBOARD_CONTACT_PANEL: ContactPanelContent = {
   title: 'Book a bulk laundry pickup',
   description:
-    'Reach the branch team for pickup scheduling, commercial loads, or large-batch laundry coordination.',
+    'Reach the branch team for pickup scheduling, commercial loads, or large-batch laundry coordination in one quick request.',
   primaryActionLabel: 'Book pickup',
   secondaryActionLabel: 'Call branch',
 };
@@ -280,22 +292,22 @@ export const DASHBOARD_PROCESS_STEPS: ProcessStep[] = [
   {
     id: 'book',
     title: 'Book',
-    description: 'Choose a branch, select a service, and reserve a pickup or arrival window in seconds.',
+    description: 'Choose your branch and lock in a pickup or visit time in minutes.',
   },
   {
     id: 'collect',
-    title: 'We Collect',
-    description: 'Our team confirms your request and handles pickup coordination when delivery is needed.',
+    title: 'Collect',
+    description: 'We confirm the request and handle collection details when pickup is needed.',
   },
   {
     id: 'clean',
-    title: 'We Clean',
-    description: 'Laundry is processed with careful sorting, load handling, and service-specific finishing.',
+    title: 'Clean',
+    description: 'Your laundry is sorted, washed, dried, and finished with care.',
   },
   {
     id: 'deliver',
-    title: 'We Deliver',
-    description: 'Get your fresh laundry back on time, folded and ready for your next day.',
+    title: 'Deliver',
+    description: 'Fresh laundry comes back on time, folded and ready to go.',
   },
 ];
 
@@ -325,6 +337,27 @@ export const DASHBOARD_TESTIMONIALS: TestimonialItem[] = [
     author: 'Mara S.',
     context: 'Weekly customer, Branch A',
   },
+  {
+    id: 'testimonial-2',
+    quote:
+      'We run a small bed-and-breakfast and Washline handles all our linen pickups. The coordination is smooth — one call, confirmed slot, done.',
+    author: 'Rodel T.',
+    context: 'B&B owner, Katipunan',
+  },
+  {
+    id: 'testimonial-3',
+    quote:
+      'Three kids, full-time job. I drop off a big load on Saturday morning and pick it up folded in the afternoon. It genuinely changed my weekends.',
+    author: 'Jen A.',
+    context: 'Wash & Fold regular, Branch B',
+  },
+  {
+    id: 'testimonial-4',
+    quote:
+      'I appreciate that the prices are listed upfront. No surprises at pickup. That transparency is why I keep coming back.',
+    author: 'Carlo M.',
+    context: 'Monthly customer, Branch C',
+  },
 ];
 
 export const DEFAULT_DASHBOARD_VIEW_STATE: DashboardViewState = {
@@ -336,6 +369,7 @@ export const DEFAULT_DASHBOARD_VIEW_STATE: DashboardViewState = {
 export const DEFAULT_PICKUP_REQUEST_FORM_VALUES: PickupRequestFormValues = {
   name: '',
   phone: '',
+  branch: '',
   pickupDate: '',
   loadSize: 'Large (3+ hampers)',
   address: '',
@@ -344,6 +378,7 @@ export const DEFAULT_PICKUP_REQUEST_FORM_VALUES: PickupRequestFormValues = {
 export const DEFAULT_PICKUP_REQUEST_FIELD_ERRORS: PickupRequestFieldErrors = {
   name: '',
   phone: '',
+  branch: '',
   pickupDate: '',
   loadSize: '',
   address: '',

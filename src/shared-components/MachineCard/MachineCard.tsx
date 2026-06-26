@@ -1,9 +1,13 @@
-import { Bell, Sparkles, TimerReset } from "lucide-react";
+// ============================================================
+// REDESIGNED: MachineCard
+// Cleaner layout, status-aware accent bars, better ETA display,
+// and tighter visual hierarchy.
+// ============================================================
 
-import { Badge } from "@/components/ui/badge";
+import { AnimatePresence, motion } from "framer-motion";
+import { Bell, BellRing, Loader2, Sparkles, Timer, WashingMachine, Wind } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import type { MachineStatus } from '../../features/dashboard/model/dashboard.model';
+import type { MachineStatus } from "../../features/dashboard/model/dashboard.model";
 
 interface MachineCardProps {
   id: string;
@@ -17,6 +21,55 @@ interface MachineCardProps {
   onNotifyToggle: (machineId: string) => void;
 }
 
+const STATUS_CONFIG: Record<
+  MachineStatus,
+  {
+    accent: string;
+    bg: string;
+    badgeBg: string;
+    badgeText: string;
+    badgeBorder: string;
+    dot: string;
+    pulse: boolean;
+    barColor: string;
+    icon: React.ElementType;
+  }
+> = {
+  available: {
+    accent: "bg-emerald-500",
+    bg: "bg-emerald-50/80",
+    badgeBg: "bg-emerald-50",
+    badgeText: "text-emerald-700",
+    badgeBorder: "border-emerald-200",
+    dot: "bg-emerald-500",
+    pulse: true,
+    barColor: "bg-emerald-400",
+    icon: Sparkles,
+  },
+  "in-use": {
+    accent: "bg-amber-500",
+    bg: "bg-amber-50/80",
+    badgeBg: "bg-amber-50",
+    badgeText: "text-amber-700",
+    badgeBorder: "border-amber-200",
+    dot: "bg-amber-500",
+    pulse: false,
+    barColor: "bg-amber-400",
+    icon: Loader2,
+  },
+  "finishing-soon": {
+    accent: "bg-sky-400",
+    bg: "bg-sky-50/80",
+    badgeBg: "bg-sky-50",
+    badgeText: "text-sky-700",
+    badgeBorder: "border-sky-200",
+    dot: "bg-sky-400",
+    pulse: true,
+    barColor: "bg-sky-400",
+    icon: Timer,
+  },
+};
+
 export function MachineCard({
   id,
   label,
@@ -28,55 +81,168 @@ export function MachineCard({
   notifyEnabled,
   onNotifyToggle,
 }: MachineCardProps): JSX.Element {
-  const statusClasses: Record<MachineStatus, string> = {
-    available: "border-primary text-primary",
-    "in-use": "border-foreground text-foreground",
-    "finishing-soon": "border-muted-foreground text-muted-foreground",
-  };
+  const cfg = STATUS_CONFIG[status];
+  const MachineIcon = typeLabel.toLowerCase().includes("dryer") ? Wind : WashingMachine;
+  const StatusIcon = cfg.icon;
 
   return (
-    <Card
-      aria-live="polite"
-      data-status={status}
-      className="group relative overflow-hidden rounded-none border-border bg-card shadow-none transition-colors hover:border-primary"
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -3 }}
+      className="h-full"
     >
-      <CardHeader className="gap-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-1">
-            <p className="font-mono text-xs uppercase tracking-[0.28em] text-muted-foreground">
-              {typeLabel}
-            </p>
-            <CardTitle className="text-2xl font-black uppercase">{label}</CardTitle>
+      <div
+        aria-live="polite"
+        data-status={status}
+        className="relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition-shadow hover:shadow-md"
+      >
+        {/* Top accent bar — color encodes status at a glance */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={status}
+            className={`absolute top-0 inset-x-0 h-1 ${cfg.accent}`}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.4 }}
+          />
+        </AnimatePresence>
+
+        {/* Ambient tint */}
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={status}
+            className={`pointer-events-none absolute inset-0 ${cfg.bg}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
+          />
+        </AnimatePresence>
+
+        {/* Content */}
+        <div className="relative z-10 flex flex-col gap-4 p-5 flex-1">
+
+          {/* ── Header: machine identity + status badge ── */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              {/* Machine type icon circle */}
+              <div className="flex size-11 items-center justify-center rounded-2xl border border-slate-200 bg-white shrink-0 shadow-sm">
+                <MachineIcon className="size-4.5 text-foreground" />
+              </div>
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground leading-none">
+                  {typeLabel}
+                </p>
+                <p className="mt-1 text-xl font-bold leading-none text-foreground">{label}</p>
+              </div>
+            </div>
+
+            {/* Status badge */}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={status}
+                initial={{ opacity: 0, scale: 0.88 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.88 }}
+                transition={{ duration: 0.2 }}
+              >
+                <span
+                  className={`flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-bold
+                    ${cfg.badgeBg} ${cfg.badgeText} ${cfg.badgeBorder}`}
+                >
+                  <span className="relative flex size-1.5 shrink-0">
+                    {cfg.pulse && (
+                      <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-70 ${cfg.dot}`} />
+                    )}
+                    <span className={`relative inline-flex size-1.5 rounded-full ${cfg.dot}`} />
+                  </span>
+                  {statusLabel}
+                </span>
+              </motion.div>
+            </AnimatePresence>
           </div>
-          <Badge className={`${statusClasses[status]} rounded-none bg-transparent font-mono text-[10px] uppercase tracking-[0.2em]`} variant="outline">
-            {statusLabel}
-          </Badge>
-        </div>
-      </CardHeader>
 
-      <CardContent className="space-y-3 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <Sparkles className="size-4 text-foreground" />
-          <span>{loadSizeLabel}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <TimerReset className="size-4 text-foreground" />
-          <span>{etaLabel}</span>
-        </div>
-      </CardContent>
+          {/* ── Info row ── */}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
+              <StatusIcon className={`size-3.5 ${status === "in-use" ? "animate-spin" : ""}`} />
+              <span>{loadSizeLabel}</span>
+            </div>
 
-      <CardFooter>
-        <Button
-          type="button"
-          variant={notifyEnabled ? "secondary" : "default"}
-          className="w-full rounded-none font-mono text-xs uppercase tracking-[0.18em]"
-          onClick={() => onNotifyToggle(id)}
-          aria-pressed={notifyEnabled}
-        >
-          <Bell className="size-4" />
-          {notifyEnabled ? 'Notify Me Enabled' : 'Notify Me'}
-        </Button>
-      </CardFooter>
-    </Card>
+            {/* ETA */}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={etaLabel}
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                transition={{ duration: 0.2 }}
+                className="flex items-center gap-1.5 text-sm font-semibold text-foreground"
+              >
+                <Timer className="size-3.5 text-muted-foreground" />
+                <span className="tabular-nums">{etaLabel}</span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* ── ETA progress bar (shown for in-use / finishing-soon) ── */}
+          {(status === "in-use" || status === "finishing-soon") && (
+            <div className="space-y-1">
+              <div className="h-1.5 w-full rounded-full bg-black/8 overflow-hidden">
+                <motion.div
+                  className={`h-full rounded-full ${cfg.barColor}`}
+                  initial={{ width: "0%" }}
+                  animate={{
+                    width: status === "finishing-soon" ? "88%" : "45%",
+                  }}
+                  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                />
+              </div>
+              <p className="text-xs text-right font-medium text-muted-foreground">
+                {status === "finishing-soon" ? "Almost done" : "In progress"}
+              </p>
+            </div>
+          )}
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* ── Notify button ── */}
+          <motion.div whileTap={{ scale: 0.97 }}>
+            <Button
+              type="button"
+              variant={notifyEnabled ? "secondary" : "outline"}
+              size="sm"
+              className={`w-full rounded-xl text-xs font-bold transition-all ${
+                notifyEnabled
+                  ? "bg-primary/10 text-primary border-primary/20 hover:bg-primary/15"
+                  : "bg-white/80 border-border hover:bg-muted/60"
+              }`}
+              onClick={() => onNotifyToggle(id)}
+              aria-pressed={notifyEnabled}
+            >
+              <motion.span
+                key={notifyEnabled ? "on" : "off"}
+                initial={{ rotate: 0 }}
+                animate={notifyEnabled ? { rotate: [0, -18, 18, -10, 10, 0] } : { rotate: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mr-1.5"
+              >
+                {notifyEnabled ? (
+                  <BellRing className="size-3.5" />
+                ) : (
+                  <Bell className="size-3.5" />
+                )}
+              </motion.span>
+              {notifyEnabled ? "Notification on" : "Notify me when free"}
+            </Button>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
